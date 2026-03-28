@@ -16,6 +16,25 @@ export class TestimonialController {
     return reply.status(201).send(result);
   }
 
+  async createPublic(request: FastifyRequest, reply: FastifyReply) {
+    const { username } = request.params as any;
+    const result = await this.testimonialService.createPublic(username, request.body);
+    return reply.status(201).send(result);
+  }
+
+  async getPublic(request: FastifyRequest, reply: FastifyReply) {
+    const { username } = request.params as any;
+    const result = await this.testimonialService.getPublic(username);
+    return reply.send(result);
+  }
+
+  async approve(request: FastifyRequest, reply: FastifyReply) {
+    const userId = (request.user as any).id;
+    const { id } = request.params as any;
+    const result = await this.testimonialService.approve(id, userId);
+    return reply.send(result);
+  }
+
   async update(request: FastifyRequest, reply: FastifyReply) {
     const userId = (request.user as any).id;
     const { id } = request.params as any;

@@ -146,6 +146,7 @@ model Testimonial {
   content      String    @db.Text
   avatarUrl    String?
   isFeatured   Boolean   @default(false)
+  isApproved   Boolean   @default(false)
   caseStudyUrl String?
 
   createdAt    DateTime  @default(now())
