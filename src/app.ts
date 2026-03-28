@@ -1,3 +1,4 @@
+// Triggering server restart to pick up generated Prisma client changes.
 import fastify, { FastifyInstance } from 'fastify';
 import helmet from '@fastify/helmet';
 import compress from '@fastify/compress';
