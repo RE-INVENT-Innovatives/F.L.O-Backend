@@ -5,7 +5,7 @@ import { assetSchema } from './asset.schema';
 import { authenticate } from '../../middleware/authenticate';
 
 export async function assetRoutes(fastify: FastifyInstance) {
-  const service = new AssetService(fastify.prisma);
+  const service = new AssetService(fastify.prisma, fastify.config.DB_TYPE);
   const controller = new AssetController(service);
 
   const auth = { preHandler: [authenticate] };

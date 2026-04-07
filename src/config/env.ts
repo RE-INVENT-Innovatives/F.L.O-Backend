@@ -13,6 +13,9 @@ const schema = {
     DB_TYPE: { type: 'string', enum: ['local', 'supabase'], default: 'local' },
     DATABASE_URL: { type: 'string' },
     LOCAL_DATABASE_URL: { type: 'string' },
+    SUPABASE_URL: { type: 'string' },
+    SUPABASE_ANON_KEY: { type: 'string' },
+    SUPABASE_SERVICE_ROLE_KEY: { type: 'string' },
     SUPABASE_DATABASE_URL: { type: 'string' },
     SUPABASE_DIRECT_URL: { type: 'string' },
     JWT_SECRET: { type: 'string' },
@@ -35,6 +38,9 @@ declare module 'fastify' {
       DB_TYPE: 'local' | 'supabase';
       DATABASE_URL?: string;
       LOCAL_DATABASE_URL?: string;
+      SUPABASE_URL?: string;
+      SUPABASE_ANON_KEY?: string;
+      SUPABASE_SERVICE_ROLE_KEY?: string;
       SUPABASE_DATABASE_URL?: string;
       SUPABASE_DIRECT_URL?: string;
       JWT_SECRET: string;
