@@ -29,7 +29,10 @@ export const updateTemplateSchema = {
     type: 'object',
     required: ['selectedTemplate'],
     properties: {
-      selectedTemplate: { type: 'string', enum: ['minimal', 'developer', 'creative'] },
+      selectedTemplate: { 
+        type: 'string', 
+        enum: ['minimal', 'developer', 'creative', 'saas', 'brutalist', 'dominic', 'vanshika', 'folioblox', 'futuristic'] 
+      },
     },
   },
 };

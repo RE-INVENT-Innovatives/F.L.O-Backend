@@ -11,7 +11,15 @@ declare module 'fastify' {
 }
 
 async function prismaPlugin(fastify: FastifyInstance) {
-  const pool = new pg.Pool({ connectionString: fastify.config.DATABASE_URL });
+  const connectionString = fastify.config.DB_TYPE === 'supabase' 
+    ? fastify.config.SUPABASE_DATABASE_URL 
+    : fastify.config.LOCAL_DATABASE_URL;
+
+  if (!connectionString) {
+    throw new Error(`Connection string missing for DB_TYPE: ${fastify.config.DB_TYPE}`);
+  }
+
+  const pool = new pg.Pool({ connectionString });
   const adapter = new PrismaPg(pool);
   const prisma = new PrismaClient({ adapter });
 
