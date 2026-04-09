@@ -20,16 +20,21 @@ import { testimonialRoutes } from './modules/testimonial/testimonial.routes';
 import { assetRoutes } from './modules/asset/asset.routes';
 
 export async function buildApp(): Promise<FastifyInstance> {
+  // pino-pretty is a devDependency - only use it locally, never in production (Vercel)
+  const isDev = process.env.NODE_ENV !== 'production';
+
   const app = fastify({
-    logger: {
-      transport: {
-        target: 'pino-pretty',
-        options: {
-          translateTime: 'HH:MM:ss Z',
-          ignore: 'pid,hostname',
-        },
-      },
-    },
+    logger: isDev
+      ? {
+          transport: {
+            target: 'pino-pretty',
+            options: {
+              translateTime: 'HH:MM:ss Z',
+              ignore: 'pid,hostname',
+            },
+          },
+        }
+      : true, // plain JSON logging for production - no extra packages needed
   });
 
   // Register core plugins
