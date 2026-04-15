@@ -92,11 +92,65 @@ model Portfolio {
 
   education       Education[]
   experience      Experience[]
+  inboxMessages   InboxMessage[]
+  seoSettings     SeoSettings?
+  blogPosts       BlogPost[]
 
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
   @@map("portfolios")
+}
+
+model InboxMessage {
+  id                 String    @id @default(cuid())
+  portfolioId        String
+  portfolio          Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  name               String
+  email              String
+  subject            String
+  message            String
+  isRead             Boolean   @default(false)
+  isStarred          Boolean   @default(false)
+  createdAt          DateTime  @default(now())
+}
+
+model SeoSettings {
+  id               String    @id @default(cuid())
+  portfolioId      String    @unique
+  portfolio        Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  metaTitle        String    @default("")
+  metaDescription  String    @default("")
+  ogTitle          String    @default("")
+  ogDescription    String    @default("")
+  ogImageUrl       String?
+  keywords         String[]  @default([])
+  canonicalUrl     String?
+  twitterCard      String    @default("summary_large_image")
+  twitterSite      String?
+  robotsIndex      Boolean   @default(true)
+  robotsFollow     Boolean   @default(true)
+  updatedAt        DateTime  @updatedAt
+}
+
+model BlogPost {
+  id                  String    @id @default(cuid())
+  portfolioId         String
+  portfolio           Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  title               String
+  slug                String
+  excerpt             String    @default("")
+  content             String    @default("")
+  coverImageUrl       String?
+  tags                String[]  @default([])
+  status              String    @default("draft")
+  isPublic            Boolean   @default(false)
+  readingTimeMinutes  Int       @default(1)
+  publishedAt         DateTime?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  @@unique([portfolioId, slug])
 }
 
 model Education {
