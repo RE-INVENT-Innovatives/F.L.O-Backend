@@ -18,6 +18,9 @@ import { deployRoutes } from './modules/deploy/deploy.routes';
 import { aiRoutes } from './modules/ai/ai.routes';
 import { testimonialRoutes } from './modules/testimonial/testimonial.routes';
 import { assetRoutes } from './modules/asset/asset.routes';
+import { inboxRoutes } from './modules/inbox/inbox.routes';
+import { seoRoutes } from './modules/seo/seo.routes';
+import { blogRoutes } from './modules/blog/blog.routes';
 
 export async function buildApp(): Promise<FastifyInstance> {
   // pino-pretty is a devDependency - only use it locally, never in production (Vercel)
@@ -57,6 +60,9 @@ export async function buildApp(): Promise<FastifyInstance> {
   await app.register(aiRoutes, { prefix: '/api/ai' });
   await app.register(testimonialRoutes, { prefix: '/api/testimonials' });
   await app.register(assetRoutes, { prefix: '/api/assets' });
+  await app.register(inboxRoutes, { prefix: '/api/inbox' });
+  await app.register(seoRoutes, { prefix: '/api/seo' });
+  await app.register(blogRoutes, { prefix: '/api/blog' });
 
   // Health check route
   app.get('/api/health', async () => {
