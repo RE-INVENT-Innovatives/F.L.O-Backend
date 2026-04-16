@@ -30,16 +30,18 @@ export class SeoController {
     if (!data) throw new AppError('No image uploaded', 400);
 
     // Simplistic local storage for now (should ideally go to Supabase/S3)
-    const publicDir = path.join(process.cwd(), 'public', 'uploads');
+    const publicDir = path.join(process.cwd(), 'public', 'uploads', 'seo');
     await fs.mkdir(publicDir, { recursive: true });
     
     const filename = `${Date.now()}-${data.filename}`;
     const filePath = path.join(publicDir, filename);
+
     
     const buffer = await data.toBuffer();
     await fs.writeFile(filePath, buffer);
     
-    const url = `/uploads/${filename}`;
+    const url = `/uploads/seo/${filename}`;
     return reply.send({ url });
+
   }
 }

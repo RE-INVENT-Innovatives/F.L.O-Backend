@@ -5,7 +5,8 @@ import { AppError } from '../../utils/errors';
 import { supabase } from '../../lib/supabase';
 
 // Ensure uploads directory exists (Only needed for local storage)
-const UPLOADS_DIR = path.join(process.cwd(), 'uploads', 'assets');
+const UPLOADS_DIR = path.join(process.cwd(), 'public', 'uploads', 'assets');
+
 
 export class AssetService {
   constructor(

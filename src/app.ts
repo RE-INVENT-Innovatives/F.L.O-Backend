@@ -9,7 +9,10 @@ import swaggerPlugin from './plugins/swagger';
 import corsPlugin from './plugins/cors';
 import rateLimitPlugin from './plugins/rate-limit';
 import multipartPlugin from './plugins/multipart';
+import staticPlugin from '@fastify/static';
+import path from 'path';
 import { AppError } from './utils/errors';
+
 import { authRoutes } from './modules/auth/auth.routes';
 import { githubRoutes } from './modules/github/github.routes';
 import { profileRoutes } from './modules/profile/profile.routes';
@@ -42,7 +45,11 @@ export async function buildApp(): Promise<FastifyInstance> {
 
   // Register core plugins
   await app.register(envPlugin);
-  await app.register(helmet);
+  await app.register(helmet, {
+    crossOriginResourcePolicy: { policy: 'cross-origin' },
+    contentSecurityPolicy: isDev ? false : undefined, // Relax CSP in development
+  });
+
   await app.register(compress);
   await app.register(corsPlugin);
   await app.register(rateLimitPlugin);
@@ -50,6 +57,14 @@ export async function buildApp(): Promise<FastifyInstance> {
   await app.register(authPlugin);
   await app.register(swaggerPlugin);
   await app.register(multipartPlugin);
+  
+  await app.register(staticPlugin, {
+    root: path.join(__dirname, '..', 'public'),
+    prefix: '/',
+    decorateReply: false,
+  });
+
+
 
   // Register modules
   await app.register(authRoutes, { prefix: '/api/auth' });
