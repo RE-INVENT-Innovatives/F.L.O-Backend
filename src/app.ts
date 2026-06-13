@@ -26,8 +26,8 @@ import { seoRoutes } from './modules/seo/seo.routes';
 import { blogRoutes, publicBlogRoutes } from './modules/blog/blog.routes';
 
 export async function buildApp(): Promise<FastifyInstance> {
-  // pino-pretty is a devDependency - only use it locally, never in production (Vercel)
-  const isDev = process.env.NODE_ENV !== 'production';
+  // pino-pretty is a devDependency - only use it locally, never on Vercel
+  const isDev = process.env.NODE_ENV !== 'production' && !process.env.VERCEL;
 
   const app = fastify({
     logger: isDev
