@@ -1,7 +1,6 @@
 {
   "name": "f.l.o-backend",
   "version": "1.0.0",
-  "type": "module",
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
@@ -12,7 +11,7 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:push": "prisma db push",
     "prisma:studio": "prisma studio",
-    "vercel-build": "prisma generate && tsc"
+    "vercel-build": "prisma generate"
   },
   "keywords": [],
   "author": "",
