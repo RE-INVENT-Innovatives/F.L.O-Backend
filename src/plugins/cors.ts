@@ -19,15 +19,16 @@ async function corsPlugin(fastify: FastifyInstance) {
         return;
       }
 
-      // Allow the configured production frontend URL
-      const frontendUrl = process.env.FRONTEND_URL;
-      if (frontendUrl && origin === frontendUrl) {
+      // Allow the configured production frontend URL (normalized)
+      const frontendUrl = process.env.FRONTEND_URL?.replace(/\/$/, '');
+      const cleanOrigin = origin.replace(/\/$/, '');
+      if (frontendUrl && cleanOrigin === frontendUrl) {
         cb(null, true);
         return;
       }
 
       // Allow any *.vercel.app origin (useful for preview deployments)
-      if (/^https:\/\/.*\.vercel\.app$/.test(origin)) {
+      if (/^https:\/\/.*\.vercel\.app$/.test(cleanOrigin)) {
         cb(null, true);
         return;
       }

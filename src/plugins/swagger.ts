@@ -13,8 +13,8 @@ async function swaggerPlugin(fastify: FastifyInstance) {
       },
       servers: [
         {
-          url: `http://localhost:${fastify.config.PORT}`,
-          description: 'Development server',
+          url: '/',
+          description: 'Default server (relative)',
         },
       ],
       components: {
