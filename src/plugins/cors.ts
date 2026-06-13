@@ -5,7 +5,7 @@ import fastifyCors from '@fastify/cors';
 async function corsPlugin(fastify: FastifyInstance) {
   await fastify.register(fastifyCors, {
     origin: (origin, cb) => {
-      // Allow requests with no origin (like mobile apps or curl)
+      // Allow requests with no origin (curl, mobile apps, server-to-server)
       if (!origin) {
         cb(null, true);
         return;
@@ -19,7 +19,19 @@ async function corsPlugin(fastify: FastifyInstance) {
         return;
       }
 
-      // Add production origins here when ready
+      // Allow the configured production frontend URL
+      const frontendUrl = process.env.FRONTEND_URL;
+      if (frontendUrl && origin === frontendUrl) {
+        cb(null, true);
+        return;
+      }
+
+      // Allow any *.vercel.app origin (useful for preview deployments)
+      if (/^https:\/\/.*\.vercel\.app$/.test(origin)) {
+        cb(null, true);
+        return;
+      }
+
       cb(new Error('Not allowed by CORS'), false);
     },
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
@@ -29,3 +41,4 @@ async function corsPlugin(fastify: FastifyInstance) {
 }
 
 export default fp(corsPlugin);
+

@@ -58,11 +58,14 @@ export async function buildApp(): Promise<FastifyInstance> {
   await app.register(swaggerPlugin);
   await app.register(multipartPlugin);
   
-  await app.register(staticPlugin, {
-    root: path.join(__dirname, '..', 'public'),
-    prefix: '/',
-    decorateReply: false,
-  });
+  // Only serve static files in development — Vercel's filesystem is read-only
+  if (isDev) {
+    await app.register(staticPlugin, {
+      root: path.join(__dirname, '..', 'public'),
+      prefix: '/',
+      decorateReply: false,
+    });
+  }
 
 
 

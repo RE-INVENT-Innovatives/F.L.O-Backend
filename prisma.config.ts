@@ -1,33 +1,21 @@
 import { defineConfig } from '@prisma/config';
 import { config } from 'dotenv';
 
-// Load environment variables
+// Load environment variables from .env file
 config();
 
 /**
- * Prisma Configuration
- * Dynamically switches between Local and Supabase based on DB_TYPE.
+ * Prisma 7 Configuration (prisma.config.ts)
+ *
+ * The `datasource.url` here is used ONLY by the Prisma CLI (prisma migrate, prisma db push, etc.).
+ * Set DATABASE_URL in Vercel → Project Settings → Environment Variables.
+ *
+ * Note: `directUrl` is NOT a valid property in this config — it is passed separately
+ * to the PrismaClient adapter in src/plugins/prisma.ts via the pg.Pool connection string.
  */
-const dbType = process.env.DB_TYPE || 'local';
-
-const getDatabaseUrl = () => {
-  if (dbType === 'supabase') {
-    return process.env.SUPABASE_DATABASE_URL;
-  }
-  return process.env.LOCAL_DATABASE_URL;
-};
-
-const getDirectUrl = () => {
-  if (dbType === 'supabase') {
-    return process.env.SUPABASE_DIRECT_URL;
-  }
-  // For local, directUrl is the same as the main URL
-  return process.env.LOCAL_DATABASE_URL;
-};
-
 export default defineConfig({
   datasource: {
-    url: getDatabaseUrl(),
-    directUrl: getDirectUrl(),
+    url: process.env.DATABASE_URL,
   },
 });
+

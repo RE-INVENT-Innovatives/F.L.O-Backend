@@ -11,12 +11,12 @@ declare module 'fastify' {
 }
 
 async function prismaPlugin(fastify: FastifyInstance) {
-  const connectionString = fastify.config.DB_TYPE === 'supabase' 
-    ? fastify.config.SUPABASE_DATABASE_URL 
-    : fastify.config.LOCAL_DATABASE_URL;
+  // Use DATABASE_URL — this matches what prisma/schema.prisma expects.
+  // Set this in Vercel dashboard to the Supabase Transaction Pooler URL (port 6543).
+  const connectionString = process.env.DATABASE_URL;
 
   if (!connectionString) {
-    throw new Error(`Connection string missing for DB_TYPE: ${fastify.config.DB_TYPE}`);
+    throw new Error('DATABASE_URL environment variable is not set.');
   }
 
   const pool = new pg.Pool({ connectionString });

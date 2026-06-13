@@ -10,8 +10,11 @@ const schema = {
     PORT: { type: 'number', default: 3001 },
     HOST: { type: 'string', default: '0.0.0.0' },
     NODE_ENV: { type: 'string', default: 'development' },
-    DB_TYPE: { type: 'string', enum: ['local', 'supabase'], default: 'local' },
+    // Standard Prisma env vars (used by prisma/schema.prisma)
     DATABASE_URL: { type: 'string' },
+    DIRECT_URL: { type: 'string' },
+    // Legacy / local vars (kept for backwards compat)
+    DB_TYPE: { type: 'string', enum: ['local', 'supabase'], default: 'local' },
     LOCAL_DATABASE_URL: { type: 'string' },
     SUPABASE_URL: { type: 'string' },
     SUPABASE_ANON_KEY: { type: 'string' },
@@ -35,8 +38,9 @@ declare module 'fastify' {
       PORT: number;
       HOST: string;
       NODE_ENV: string;
-      DB_TYPE: 'local' | 'supabase';
       DATABASE_URL?: string;
+      DIRECT_URL?: string;
+      DB_TYPE: 'local' | 'supabase';
       LOCAL_DATABASE_URL?: string;
       SUPABASE_URL?: string;
       SUPABASE_ANON_KEY?: string;
