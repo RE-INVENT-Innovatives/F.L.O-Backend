@@ -150,7 +150,7 @@ export class GithubService {
 
       if (statusCode === 404) return null;
       if (statusCode !== 200) {
-        throw new AppError(`GitHub API error: ${statusCode}`, statusCode);
+        throw new AppError(`GitHub API error: ${statusCode}`, 502);
       }
 
       const data: any = await body.json();
@@ -187,7 +187,7 @@ export class GithubService {
     );
 
     if (userStatus !== 200) {
-      throw new AppError(`GitHub API error: ${userStatus}`, userStatus);
+      throw new AppError(`GitHub API error: ${userStatus}`, 502);
     }
 
     const userData: any = await userBody.json();
@@ -202,7 +202,7 @@ export class GithubService {
       );
 
       if (repoStatus !== 200) {
-        throw new AppError(`GitHub API error: ${repoStatus}`, repoStatus);
+        throw new AppError(`GitHub API error: ${repoStatus}`, 502);
       }
 
       const repoData: any = await repoBody.json();
